@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <myconio.h>
+#include <time.h>
+
+#define MAX 6
+#define MIN 1
+
+int main()
+{
+    int max,ligne=0, col, pl=0,turnpoint,lignemax=0;
+    int de[2][20][2];
+    int total[2];
+    char car;
+
+    textcolor(GREEN);
+
+    srand(time(NULL));
+    max = MAX-MIN+1;
+
+    printf("\n\t\tBienvenue sur le jeu du cochon!!!\n\t\t");
+    system("pause");
+do
+{
+
+   do
+    {
+        ligne++;
+        for(col=0;col<2;col++)
+            {
+                de[pl][ligne][col] = MIN + (rand()%max);
+            }
+                for (ligne=0;ligne<lignemax+1;ligne++)
+                {
+                    printf("\n\tLancer num\202ro %d : [%d]\t[%d]",ligne+1,de[pl][ligne][0],de[pl][ligne][1]);
+                }
+                lignemax++;
+                // Test pour savoir si le dernier lancer comprend un 1//
+                if(de[pl][ligne][0]!=1||de[pl][ligne][1]!=1)
+                {
+                    turnpoint = turnpoint + de[pl][ligne][0] + de[pl][ligne][1];
+                    if(de[pl][ligne][0]==de[pl][ligne][1])
+                    {
+                        puts("\n\tVous avez fais un double, lancer obligatoire!\n\t");
+                        car='o';
+                        system("pause");
+                        clrscr();
+                    }
+                    else
+                    {
+                        puts("\n\tVoulez vous continuer? o/n");
+                        while(kbhit())
+                        getch();
+                        car=getch();
+                        clrscr();
+                    }
+                }
+                else
+                {
+                    turnpoint = 0;
+                    puts("Vous avez fait un 1, vous avez perdu votre tour");
+                    car='n';
+                    system("pause");
+                    clrscr();
+                }
+
+    } while (de[pl][ligne][0]!=1||de[pl][ligne][1]!=1||car!='n');
+    total[pl]=total[pl]+turnpoint;
+
+
+}while (total[0]<200 || total[1]<200);
+
+if(total[0]>=200)
+{
+    printf("\n\tBravo au joueur 1, il gagne la partie avec %d points!\n\tLe joueur 2 est 2\212me avec %d points!",total[0],total[1]);
+}
+
+    getch();
+    return 0;
+}
